@@ -6,10 +6,11 @@ import { UserService } from './services/user.service';
 import { UserModule } from './modules/user.module';
 import { ServiceModule } from './modules/service.module';
 import { AuthModule } from './modules/auth.module';
+import { GraphqlModule } from './graphql/graphql.module';
 
 
 @Module({
-  imports: [PrismaModule, UserModule, ServiceModule, AuthModule],
+  imports: [PrismaModule, UserModule, ServiceModule, AuthModule, GraphqlModule],
   controllers: [AppController],
   providers: [AppService, UserService],
 })
