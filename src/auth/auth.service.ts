@@ -4,6 +4,8 @@ import { UserService } from 'src/users/user.service';
 import * as bcryptjs  from 'bcryptjs'
 import { LoginDto } from './login.dto'; 
 import { JwtService } from '@nestjs/jwt';
+import { response } from 'express';
+import { AuthResponse } from './auth-response';
 
 
 @Injectable()
@@ -32,7 +34,8 @@ export class AuthService {
     }
 
 
-    async login({email,password}: LoginDto) {
+    async login(loginDto: LoginDto) {
+        const {email,password} = loginDto;
         const user = await this.userService.getUserByEmail(email);
 
         if(!user){
@@ -47,11 +50,8 @@ export class AuthService {
 
         const payload = {id: user.id};
         const token = await this.jwtService.signAsync(payload);
-
-        return {
-            token,
-            email,
-        } ;
+        
+        return new AuthResponse(token, email);
 }
 
 }
