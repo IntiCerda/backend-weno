@@ -2,15 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type LoginDto {
+input LoginDto {
   email: String!
   password: String!
 }
 
 type Mutation {
   deleteUserByName(id: String!): User!
-  login: LoginDto!
-  register: RegisterDto!
+  login(loginDto: LoginDto!): SignResponse!
+  register(registerDto: RegisterDto!): User!
   updateUserByName: User!
 }
 
@@ -20,11 +20,17 @@ type Query {
   users: [UserTest!]!
 }
 
-type RegisterDto {
+input RegisterDto {
   email: String!
   lastName: String!
   name: String!
   password: String!
+}
+
+type SignResponse {
+  accessToken: String!
+  refreshToken: String!
+  user: User!
 }
 
 type User {

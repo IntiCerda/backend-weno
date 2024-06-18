@@ -4,8 +4,6 @@ import { UserService } from 'src/users/user.service';
 import * as bcryptjs  from 'bcryptjs'
 import { LoginDto } from './login.dto'; 
 import { JwtService } from '@nestjs/jwt';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-
 
 
 @Injectable()
@@ -17,7 +15,8 @@ export class AuthService {
     ){}
 
 
-    async register({name,lastName,email,password} : RegisterDto){
+    async register(registerDto : RegisterDto){
+        const {name, lastName, email, password} = registerDto;        
         const user = await this.userService.getUserByEmail(email)
 
         if(user){

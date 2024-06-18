@@ -9,11 +9,12 @@ import { AuthModule } from './auth/auth.module';
 import { GraphqlModule } from './graphql/graphql.module';
 import { UserTest } from './userTest/userTest.dto';
 import { UserTestModule } from './userTest/userTest.module';
+import { PrismaService } from './prisma/prisma.service';
 
 
 @Module({
   imports: [PrismaModule, UserModule, ServiceModule, AuthModule, GraphqlModule, UserTestModule],
   controllers: [AppController],
-  providers: [AppService, UserService],
+  providers: [AppService, UserService, PrismaService],
 })
 export class AppModule {}

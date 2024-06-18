@@ -1,17 +1,19 @@
-import { IsEmail,IsString, MinLength } from "class-validator"
+import { IsEmail,IsNotEmpty,IsString, MinLength } from "class-validator"
 import { Transform } from "class-transformer"
-import { Field, ObjectType } from "@nestjs/graphql"
+import { Field, InputType, ObjectType } from "@nestjs/graphql"
 
-@ObjectType()
+@InputType()
 export class LoginDto{
 
     @Field()
     @IsEmail()
+    @IsNotEmpty()
     email: string
 
     @Field()
     @Transform(({value})=> value.trim())
     @IsString()
     @MinLength(6)
+    @IsNotEmpty()
     password: string
 }
