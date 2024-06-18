@@ -5,7 +5,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthResponse } from './auth-response'; 
 import { User } from 'src/users/create-user.dto';
 
-
+    
 @Resolver()
 export class AuthResolver {
     constructor(private readonly authService: AuthService,){}
