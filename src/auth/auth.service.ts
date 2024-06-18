@@ -1,9 +1,12 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { RegisterDto } from 'src/dto/register.dto';
-import { UserService } from 'src/services/user.service';
+import { RegisterDto } from './register.dto'; 
+import { UserService } from 'src/users/user.service';
 import * as bcryptjs  from 'bcryptjs'
-import { LoginDto } from 'src/dto/login.dto';
+import { LoginDto } from './login.dto'; 
 import { JwtService } from '@nestjs/jwt';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+
+
 
 @Injectable()
 export class AuthService {
@@ -12,6 +15,7 @@ export class AuthService {
         private  readonly userService: UserService,
         private readonly jwtService: JwtService,
     ){}
+
 
     async register({name,lastName,email,password} : RegisterDto){
         const user = await this.userService.getUserByEmail(email)

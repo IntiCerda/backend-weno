@@ -1,8 +1,12 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, ID, InputType, ObjectType } from '@nestjs/graphql';
 import { IsEmail, IsString, MinLength } from 'class-validator';
 
-@InputType()
-export class CreateUserDto {
+@ObjectType()
+export class User {
+
+  @Field(() => ID)
+  id: string;
+
   @Field()
   @IsString()
   @MinLength(1)

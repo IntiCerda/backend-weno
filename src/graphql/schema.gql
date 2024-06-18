@@ -1,0 +1,42 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type LoginDto {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  deleteUserByName(id: String!): User!
+  login: LoginDto!
+  register: RegisterDto!
+  updateUserByName: User!
+}
+
+type Query {
+  getAllUsers: [User!]!
+  getUserById(id: String!): User!
+  users: [UserTest!]!
+}
+
+type RegisterDto {
+  email: String!
+  lastName: String!
+  name: String!
+  password: String!
+}
+
+type User {
+  email: String!
+  id: ID!
+  lastName: String!
+  name: String!
+  password: String!
+}
+
+type UserTest {
+  age: Int!
+  id: ID!
+  name: String!
+}

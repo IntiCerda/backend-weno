@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AuthController } from '../controllers/auth.controller';
-import { AuthService } from '../services/auth.service';
-import { UserModule } from './user.module';
+import { AuthService } from './auth.service';
+import { UserModule } from '../users/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { env } from 'process';
+import { AuthResolver } from './auth.resolver';
 
 @Module({
   imports: [
@@ -16,8 +16,7 @@ import { env } from 'process';
 
 
   ],
-  controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService,AuthResolver],
   
 
 })

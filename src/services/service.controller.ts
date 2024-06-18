@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ServiceService } from 'src/services/service.service'; 
-import { CreateServiceDto } from 'src/dto/create-service.dto'; 
-import { UpdateServiceDto } from 'src/dto/update-service.dto'; 
+import { CreateServiceDto } from './create-service.dto';  
+import { UpdateServiceDto } from './update-service.dto'; 
 import { Services, User } from '@prisma/client';
 
 @Controller('service')
