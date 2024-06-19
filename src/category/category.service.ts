@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { Category } from "@prisma/client";
 import { PrismaService } from "src/prisma/prisma.service";
+import { CreateCategory } from "./create-category.dto";
 
 @Injectable()
 export class CategoryService {
@@ -10,16 +11,16 @@ export class CategoryService {
         return this.prisma.category.findMany();
     }
 
-    async getCategoryById(id: string): Promise<Category>{
+    async getCategoryByName(name: string): Promise<Category>{
         return this.prisma.category.findUnique({
             where:{
-                id
+                name
             }
         })
     }
 
-    async createCategory(data: Category){
-        const {name} = data;
+    async createCategory(createCategory: CreateCategory){
+        const {name} = createCategory;
         return this.prisma.category.create({
             data:{
                 name

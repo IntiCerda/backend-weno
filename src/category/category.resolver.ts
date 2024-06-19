@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { CategoryService } from "./category.service";
-import { Category } from "./category.dto";
+import { CategoryObject } from "./category.dto";
 import { CreateCategory } from "./create-category.dto";
 
 
@@ -8,27 +8,27 @@ import { CreateCategory } from "./create-category.dto";
 export class CategoryResolver {
     constructor(private readonly categoryService: CategoryService) {}
 
-    @Query(() => [Category])
+    @Query(() => [CategoryObject])
     async getAllCategories() {
         return this.categoryService.getAllCategories();
     }
 
-    @Query(() => Category)
-    async getCategoryById(@Args('id') id: string) {
-        return this.categoryService.getCategoryById(id);
+    @Query(() => CategoryObject)
+    async getCategoryByName(@Args('categoryByName') name: string) {
+        return this.categoryService.getCategoryByName(name);
     }
 
-    @Mutation(() => Category)
-    async createCategory(@Args('data') data: CreateCategory) {
-        return this.categoryService.createCategory(data);
+    @Mutation(() => CategoryObject)
+    async createCategory(@Args('crateCategory') crateCategory: CreateCategory) {
+        return this.categoryService.createCategory(crateCategory);
     }
 
-    @Mutation(() => Category)
+    @Mutation(() => CategoryObject)
     async deleteCategory(@Args('id') id: string) {
         return this.categoryService.deleteCategory(id);
     }
 
-    // @Mutation(() => Category)
+    // @Mutation(() => CategoryObject)
     // async updateCategory(@Args('id') id: string, @Args('data') data: UpdateCategoryDto) {
     //     return this.categoryService.updateCategory(id, data);
     // }

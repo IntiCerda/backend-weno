@@ -1,31 +1,32 @@
-import { Body, Injectable, Param } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { RegisterDto } from 'src/auth/register.dto'; 
-import { UserService } from 'src/users/user.service';
 import { ServicesService } from './service.service';
 import { Service } from './service.dto';
+import { CreateServiceDto } from './create-service.dto';
 
 
 @Resolver()
 export class ServiceResolver {
-    constructor(private readonly serviceSerice: ServicesService){}
+    constructor(private readonly serviceService: ServicesService){}
 
     @Query(() => [Service])
     async getAllServices(){
-        return this.serviceSerice.getAllServices()
+        return this.serviceService.getAllServices()
     }
 
     @Query(() => Service)
-    async getUserById(@Args('id') id: string){
-        return this.serviceSerice.getServiceById(id)
+    async getServiceById(@Args('id') id: string){
+        return this.serviceService.getServiceById(id)
     }
 
     @Mutation(() => Service)
-    async deleteUserByName(@Args('id') id: string){
-        return this.serviceSerice.deleteServiceById(id)
+    async deleteServiceByName(@Args('id') id: string){
+        return this.serviceService.deleteServiceById(id)
     }
 
-     
+    @Mutation(() => Service)
+    async createService(@Args('createService') createService: CreateServiceDto){
+        return this.serviceService.createService(createService)
+    }
 
     // @Mutation()
     // async updateUserByName(@Param('id') id: string,@Body() data: User){

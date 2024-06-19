@@ -2,7 +2,7 @@ import { Field, ID, InputType, ObjectType } from '@nestjs/graphql';
 import { IsEmail, IsString, MinLength } from 'class-validator';
 
 @ObjectType()
-export class Category {
+export class CategoryObject {
 
   @Field(() => ID)
   id: string;

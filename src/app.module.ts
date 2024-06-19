@@ -10,10 +10,14 @@ import { GraphqlModule } from './graphql/graphql.module';
 import { UserTest } from './userTest/userTest.dto';
 import { UserTestModule } from './userTest/userTest.module';
 import { PrismaService } from './prisma/prisma.service';
+import { CategoryModule } from './category/category.module';
 
 
 @Module({
-  imports: [PrismaModule, UserModule, ServiceModule, AuthModule, GraphqlModule, UserTestModule],
+  imports: [PrismaModule, UserModule, 
+    ServiceModule, AuthModule, 
+    GraphqlModule, UserTestModule,
+    CategoryModule],
   controllers: [AppController],
   providers: [AppService, UserService, PrismaService],
 })

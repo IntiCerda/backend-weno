@@ -7,22 +7,46 @@ type AuthResponse {
   token: String!
 }
 
+type CategoryObject {
+  id: ID!
+  name: String!
+}
+
+input CreateCategory {
+  name: String!
+}
+
+input CreateServiceDto {
+  categoryName: String!
+  description: String!
+  name: String!
+  price: Float!
+  userId: String!
+}
+
 input LoginDto {
   email: String!
   password: String!
 }
 
 type Mutation {
-  deleteUserByName(id: String!): Service!
+  createCategory(crateCategory: CreateCategory!): CategoryObject!
+  createService(createService: CreateServiceDto!): Service!
+  deleteCategory(id: String!): CategoryObject!
+  deleteServiceByName(id: String!): Service!
+  deleteUserByName(id: String!): User!
   login(loginDto: LoginDto!): AuthResponse!
   register(registerDto: RegisterDto!): User!
   updateUserByName: User!
 }
 
 type Query {
+  getAllCategories: [CategoryObject!]!
   getAllServices: [Service!]!
   getAllUsers: [User!]!
-  getUserById(id: String!): Service!
+  getCategoryByName(categoryByName: String!): CategoryObject!
+  getServiceById(id: String!): Service!
+  getUserById(id: String!): User!
   users: [UserTest!]!
 }
 
@@ -34,9 +58,12 @@ input RegisterDto {
 }
 
 type Service {
+  category: CategoryObject!
+  description: String!
   id: ID!
   name: String!
   price: Float!
+  user: User!
 }
 
 type User {
