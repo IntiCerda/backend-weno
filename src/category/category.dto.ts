@@ -1,8 +1,9 @@
+
 import { Field, ID, InputType, ObjectType } from '@nestjs/graphql';
 import { IsEmail, IsString, MinLength } from 'class-validator';
 
-@InputType()
-export class CreateServiceDto {
+@ObjectType()
+export class Category {
 
   @Field(() => ID)
   id: string;
@@ -11,8 +12,5 @@ export class CreateServiceDto {
   @IsString()
   @MinLength(1)
   name: string;
-
-  @Field()
-  price: number;
 
 }

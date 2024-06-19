@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { UserService } from './users/user.service'; 
 import { UserModule } from './users/user.module';
-import { ServiceModule } from './modules/service.module';
+import { ServiceModule } from './services/service.module'; 
 import { AuthModule } from './auth/auth.module';
 import { GraphqlModule } from './graphql/graphql.module';
 import { UserTest } from './userTest/userTest.dto';
