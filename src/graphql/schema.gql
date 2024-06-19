@@ -13,15 +13,16 @@ input LoginDto {
 }
 
 type Mutation {
-  deleteUserByName(id: String!): User!
+  deleteUserByName(id: String!): Service!
   login(loginDto: LoginDto!): AuthResponse!
   register(registerDto: RegisterDto!): User!
   updateUserByName: User!
 }
 
 type Query {
+  getAllServices: [Service!]!
   getAllUsers: [User!]!
-  getUserById(id: String!): User!
+  getUserById(id: String!): Service!
   users: [UserTest!]!
 }
 
@@ -30,6 +31,12 @@ input RegisterDto {
   lastName: String!
   name: String!
   password: String!
+}
+
+type Service {
+  id: ID!
+  name: String!
+  price: Float!
 }
 
 type User {

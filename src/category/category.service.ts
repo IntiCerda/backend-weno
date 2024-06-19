@@ -6,11 +6,11 @@ import { PrismaService } from "src/prisma/prisma.service";
 export class CategoryService {
     constructor(private prisma: PrismaService){}
 
-    async getAllCategories(){
+    async getAllCategories(): Promise<Category[]>{
         return this.prisma.category.findMany();
     }
 
-    async getCategoryById(id: string){
+    async getCategoryById(id: string): Promise<Category>{
         return this.prisma.category.findUnique({
             where:{
                 id
@@ -19,8 +19,11 @@ export class CategoryService {
     }
 
     async createCategory(data: Category){
+        const {name} = data;
         return this.prisma.category.create({
-            data
+            data:{
+                name
+            }
         })
     }
 

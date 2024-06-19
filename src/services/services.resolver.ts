@@ -3,23 +3,24 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { RegisterDto } from 'src/auth/register.dto'; 
 import { UserService } from 'src/users/user.service';
 import { ServicesService } from './service.service';
+import { Service } from './service.dto';
 
 
 @Resolver()
 export class ServiceResolver {
     constructor(private readonly serviceSerice: ServicesService){}
 
-    @Query()
+    @Query(() => [Service])
     async getAllServices(){
         return this.serviceSerice.getAllServices()
     }
 
-    @Query()
+    @Query(() => Service)
     async getUserById(@Args('id') id: string){
         return this.serviceSerice.getServiceById(id)
     }
 
-    @Mutation()
+    @Mutation(() => Service)
     async deleteUserByName(@Args('id') id: string){
         return this.serviceSerice.deleteServiceById(id)
     }

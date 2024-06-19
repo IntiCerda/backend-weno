@@ -2,7 +2,7 @@ import { Field, ID, InputType, ObjectType } from '@nestjs/graphql';
 import { IsEmail, IsString, MinLength } from 'class-validator';
 
 @ObjectType()
-export class User {
+export class Service {
 
   @Field(() => ID)
   id: string;
@@ -13,16 +13,6 @@ export class User {
   name: string;
 
   @Field()
-  @IsString()
-  @MinLength(6)
-  lastName: string;
+  price: number;
 
-  @Field()
-  @IsEmail()
-  email: string;
-
-  @Field()
-  @IsString()
-  @MinLength(6)
-  password: string;
 }
