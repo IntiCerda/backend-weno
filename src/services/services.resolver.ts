@@ -25,6 +25,7 @@ export class ServiceResolver {
 
     @Mutation(() => Service)
     async createService(@Args('createService') createService: CreateServiceDto){
+        console.log(createService)
         return this.serviceService.createService(createService)
     }
 

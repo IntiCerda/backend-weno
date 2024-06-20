@@ -1,6 +1,5 @@
-import { Field, Float, ID, InputType, ObjectType } from '@nestjs/graphql';
-import { IsString, MinLength } from 'class-validator';
-
+import { Field, Float, InputType } from '@nestjs/graphql';
+import { IsString, MinLength, IsOptional, IsNumber } from 'class-validator';
 
 @InputType()
 export class CreateServiceDto {
@@ -10,7 +9,7 @@ export class CreateServiceDto {
   @MinLength(1)
   name: string;
 
-  
+  @IsNumber()
   @Field(() => Float)
   price: number;
 
@@ -19,9 +18,11 @@ export class CreateServiceDto {
   description: string;
 
   @Field()
+  @IsString()
   id_user: string;
-  
-  @Field()
-  category_name: string
 
+  @Field()
+  @IsString()
+  //@IsOptional() // Considera si es opcional o no
+  category_name: string;
 }
