@@ -17,11 +17,11 @@ input CreateCategory {
 }
 
 input CreateServiceDto {
-  categoryName: String!
+  category_name: String!
   description: String!
+  id_user: String!
   name: String!
   price: Float!
-  userId: String!
 }
 
 input LoginDto {
@@ -47,7 +47,6 @@ type Query {
   getCategoryByName(categoryByName: String!): CategoryObject!
   getServiceById(id: String!): Service!
   getUserById(id: String!): User!
-  users: [UserTest!]!
 }
 
 input RegisterDto {
@@ -72,10 +71,4 @@ type User {
   lastName: String!
   name: String!
   password: String!
-}
-
-type UserTest {
-  age: Int!
-  id: ID!
-  name: String!
 }

@@ -37,14 +37,13 @@ export class ServicesService {
   }
 
   async createService(createService: CreateServiceDto): Promise<Services>{
-        const {name, price, description, userId, categoryName} = createService;
+        const {name, price, description, id_user, category_name} = createService;
 
-        console.log('hola')
-        const userFound = await this.userService.getUserById(createService.userId)
+        const userFound = await this.userService.getUserById(id_user)
 
         if(!userFound) throw new NotFoundException('User not found');
 
-        const categoryFound = await this.categoryService.getCategoryByName(createService.categoryName)
+        const categoryFound = await this.categoryService.getCategoryByName(category_name)
 
         if(!categoryFound) throw new NotFoundException('Category not found');
         console.log(categoryFound);

@@ -7,8 +7,7 @@ import { UserModule } from './users/user.module';
 import { ServiceModule } from './services/service.module'; 
 import { AuthModule } from './auth/auth.module';
 import { GraphqlModule } from './graphql/graphql.module';
-import { UserTest } from './userTest/userTest.dto';
-import { UserTestModule } from './userTest/userTest.module';
+
 import { PrismaService } from './prisma/prisma.service';
 import { CategoryModule } from './category/category.module';
 
@@ -16,7 +15,7 @@ import { CategoryModule } from './category/category.module';
 @Module({
   imports: [PrismaModule, UserModule, 
     ServiceModule, AuthModule, 
-    GraphqlModule, UserTestModule,
+    GraphqlModule, 
     CategoryModule],
   controllers: [AppController],
   providers: [AppService, UserService, PrismaService],

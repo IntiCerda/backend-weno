@@ -19,9 +19,9 @@ export class CreateServiceDto {
   description: string;
 
   @Field()
-  userId: string;
+  id_user: string;
   
   @Field()
-  categoryName: string
+  category_name: string
 
 }
