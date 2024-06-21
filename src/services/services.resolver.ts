@@ -2,6 +2,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ServicesService } from './service.service';
 import { Service } from './service.dto';
 import { CreateServiceDto } from './create-service.dto';
+import { User } from 'src/users/create-user.dto';
 
 
 @Resolver()
@@ -19,7 +20,7 @@ export class ServiceResolver {
     }
 
     @Mutation(() => Service)
-    async deleteServiceByName(@Args('id') id: string){
+    async deleteServiceById(@Args('id') id: string){
         return this.serviceService.deleteServiceById(id)
     }
 
@@ -27,6 +28,11 @@ export class ServiceResolver {
     async createService(@Args('createService') createService: CreateServiceDto){
         console.log(createService)
         return this.serviceService.createService(createService)
+    }
+
+    @Query(() => Service)
+    async getServicesByUser(@Args('id') userId: string){
+        return this.serviceService.getServicesByUser(userId)
     }
 
     // @Mutation()

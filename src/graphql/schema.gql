@@ -33,7 +33,7 @@ type Mutation {
   createCategory(crateCategory: CreateCategory!): CategoryObject!
   createService(createService: CreateServiceDto!): Service!
   deleteCategory(id: String!): CategoryObject!
-  deleteServiceByName(id: String!): Service!
+  deleteServiceById(id: String!): Service!
   deleteUserByName(id: String!): User!
   login(loginDto: LoginDto!): AuthResponse!
   register(registerDto: RegisterDto!): User!
@@ -46,6 +46,7 @@ type Query {
   getAllUsers: [User!]!
   getCategoryByName(categoryByName: String!): CategoryObject!
   getServiceById(id: String!): Service!
+  getServicesByUser(id: String!): Service!
   getUserById(id: String!): User!
 }
 

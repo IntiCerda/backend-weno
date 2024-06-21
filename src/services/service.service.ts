@@ -84,4 +84,21 @@ export class ServicesService {
           }
       })
   }
+
+    async getServicesByUser(userId: string): Promise<Services[]>{ 
+        const userFIind = await this.userService.getUserById(userId)
+    
+        if(!userFIind) throw new NotFoundException('User not found');
+    
+        return this.prisma.services.findMany({
+            where:{
+                id_user: userFIind.id
+            },
+            include: {
+                user: true,
+                category: true
+            }
+            
+        })
+    }
 }
