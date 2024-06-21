@@ -2,7 +2,9 @@ import { Body, Injectable, Param } from '@nestjs/common';
 import { User } from './create-user.dto';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UserService } from './user.service';
-import { RegisterDto } from 'src/auth/register.dto'; 
+import { RegisterDto } from 'src/auth/dto/register.dto'; 
+import { UpdatePasswordDto } from './update-password.dto';
+import { UpdateEmailDto } from './update-email.dto';
 
 
 @Resolver(of => User)
@@ -25,9 +27,15 @@ export class UserResolver {
     }
 
     @Mutation(() => User)
-    async updateUserByName(@Param('id') id: string,@Body() data: User){
-        return this.userService.updateUser(id,data)
+    async updatePassByEmail(@Args('updatePassDto') updatePassDto: UpdatePasswordDto){
+        return this.userService.updatePassByEmail(updatePassDto)
     }
+
+    @Mutation(() => User)
+    async updateEmailById(@Args('updateEmailDto') updateEmailDto : UpdateEmailDto){
+        return this.userService.updateEmailById(updateEmailDto) 
+    }
+
 
 }
 
