@@ -14,7 +14,7 @@ export class ServicesService {
   ){}
 
   async getAllServices(): Promise<Services[]>{
-      return this.prisma.services.findMany({
+      return await this.prisma.services.findMany({
             include: {
                 user: true,
                 category: true
@@ -24,7 +24,7 @@ export class ServicesService {
 
 
   async getServiceById(id: string): Promise<Services>{
-      return this.prisma.services.findUnique({
+      return await this.prisma.services.findUnique({
           where: {
               id
               
@@ -69,7 +69,7 @@ export class ServicesService {
   }
 
   async updateService(id:string,data: Services ): Promise<Services>{
-      return this.prisma.services.update({
+      return await this.prisma.services.update({
           where:{
               id
           },
@@ -78,7 +78,7 @@ export class ServicesService {
   }
 
   async deleteServiceById(id: string): Promise<Services>{
-      return this.prisma.services.delete({
+      return await this.prisma.services.delete({
           where:{
               id
           }
@@ -87,10 +87,8 @@ export class ServicesService {
 
     async getServicesByUser(userId: string): Promise<Services[]>{ 
         const userFIind = await this.userService.getUserById(userId)
-    
         if(!userFIind) throw new NotFoundException('User not found');
-    
-        return this.prisma.services.findMany({
+        const services = await this.prisma.services.findMany({
             where:{
                 id_user: userFIind.id
             },
@@ -100,5 +98,28 @@ export class ServicesService {
             }
             
         })
+        console.log(services)
+        return services;
+    }
+
+    async getServicesNotUser(userId: string): Promise<Services[]>{ 
+        const userFIind = await this.userService.getUserById(userId)
+        if(!userFIind) throw new NotFoundException('User not found');
+        //quiero todos los servicios excepto los del usuario
+        const services = await this.prisma.services.findMany({
+            where:{
+                NOT:{
+                    id_user: userFIind.id
+                }
+            },
+            include: {
+                user: true,
+                category: true
+            }
+            
+        })
+
+        console.log(services)
+        return services;
     }
 }

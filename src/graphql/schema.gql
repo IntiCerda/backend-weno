@@ -46,7 +46,8 @@ type Query {
   getAllUsers: [User!]!
   getCategoryByName(categoryByName: String!): CategoryObject!
   getServiceById(id: String!): Service!
-  getServicesByUser(id: String!): Service!
+  getServicesByUser(id: String!): [Service!]!
+  getServicesNotUser(id: String!): [Service!]!
   getUserById(id: String!): User!
 }
 

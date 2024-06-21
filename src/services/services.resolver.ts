@@ -30,10 +30,16 @@ export class ServiceResolver {
         return this.serviceService.createService(createService)
     }
 
-    @Query(() => Service)
+    @Query(() => [Service])
     async getServicesByUser(@Args('id') userId: string){
         return this.serviceService.getServicesByUser(userId)
     }
+
+    @Query(() => [Service])
+    async getServicesNotUser(@Args('id') userId: string){
+        return this.serviceService.getServicesNotUser(userId)
+    }
+
 
     // @Mutation()
     // async updateUserByName(@Param('id') id: string,@Body() data: User){
