@@ -105,7 +105,6 @@ export class ServicesService {
     async getServicesNotUser(userId: string): Promise<Services[]>{ 
         const userFIind = await this.userService.getUserById(userId)
         if(!userFIind) throw new NotFoundException('User not found');
-        //quiero todos los servicios excepto los del usuario
         const services = await this.prisma.services.findMany({
             where:{
                 NOT:{
