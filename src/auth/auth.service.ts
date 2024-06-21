@@ -1,9 +1,12 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { RegisterDto } from 'src/dto/register.dto';
-import { UserService } from 'src/services/user.service';
+import { RegisterDto } from './register.dto'; 
+import { UserService } from 'src/users/user.service';
 import * as bcryptjs  from 'bcryptjs'
-import { LoginDto } from 'src/dto/login.dto';
+import { LoginDto } from './login.dto'; 
 import { JwtService } from '@nestjs/jwt';
+import { response } from 'express';
+import { AuthResponse } from './auth-response';
+
 
 @Injectable()
 export class AuthService {
@@ -13,7 +16,9 @@ export class AuthService {
         private readonly jwtService: JwtService,
     ){}
 
-    async register({name,lastName,email,password} : RegisterDto){
+
+    async register(registerDto : RegisterDto){
+        const {name, lastName, email, password} = registerDto;        
         const user = await this.userService.getUserByEmail(email)
 
         if(user){
@@ -29,7 +34,8 @@ export class AuthService {
     }
 
 
-    async login({email,password}: LoginDto) {
+    async login(loginDto: LoginDto) {
+        const {email,password} = loginDto;
         const user = await this.userService.getUserByEmail(email);
 
         if(!user){
@@ -44,11 +50,8 @@ export class AuthService {
 
         const payload = {id: user.id};
         const token = await this.jwtService.signAsync(payload);
-
-        return {
-            token,
-            email,
-        } ;
+        
+        return new AuthResponse(token, email);
 }
 
 }

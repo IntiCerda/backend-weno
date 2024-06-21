@@ -2,25 +2,23 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
-import { UserService } from './services/user.service'; 
-import { UserModule } from './modules/user.module';
-import { ServiceModule } from './modules/service.module';
-import { AuthModule } from './modules/auth.module';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { join } from 'path';
+import { UserService } from './users/user.service'; 
+import { UserModule } from './users/user.module';
+import { ServiceModule } from './services/service.module'; 
+import { AuthModule } from './auth/auth.module';
+import { GraphqlModule } from './graphql/graphql.module';
+
+import { PrismaService } from './prisma/prisma.service';
+import { CategoryModule } from './category/category.module';
 
 
 @Module({
-  imports: [PrismaModule, UserModule, ServiceModule, AuthModule,
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      sortSchema: true,
-    }),
-  ],
+  imports: [PrismaModule, UserModule, 
+    ServiceModule, AuthModule, 
+    GraphqlModule, 
+    CategoryModule],
   controllers: [AppController],
-  providers: [AppService, UserService],
+  providers: [AppService, UserService, PrismaService],
 })
 export class AppModule {}
  

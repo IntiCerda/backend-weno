@@ -17,22 +17,25 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "generate-types": "ts-node src/utils/generate-typings"
   },
   "dependencies": {
-    "@apollo/server": "^4.10.4",
     "@nestjs/apollo": "^12.1.0",
     "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^3.2.2",
     "@nestjs/core": "^10.0.0",
     "@nestjs/graphql": "^12.1.1",
     "@nestjs/jwt": "^10.2.0",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^10.0.0",
     "@prisma/client": "^5.15.0",
+    "apollo-server-express": "^3.13.0",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "graphql": "^16.8.2",
+    "jwk": "^0.0.2",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
   },
