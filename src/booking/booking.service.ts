@@ -11,13 +11,13 @@ export class BookingService {
     async findAll():Promise<BookingObject[]>{
         return this.prisma.booking.findMany();
     }
-
-    async createBooking(createBookingInput: CreateBookingInput): Promise<BookingObject>{
-        const {} = createBookingInput;
-        return this.prisma.booking.create({
-            data:{
-
-            }
-        })
-    }
+//
+ //   async createBooking(createBookingInput: CreateBookingInput): Promise<BookingObject>{
+//       const {} = createBookingInput;
+//        return this.prisma.booking.create({
+ //           data:{
+//
+ //           }
+//        })
+//    }
 }

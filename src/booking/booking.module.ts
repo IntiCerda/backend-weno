@@ -8,3 +8,4 @@ import { BookingService } from "./booking.service";
     providers: [BookingResolver, BookingService],
     exports: [BookingService]
 })
+export class BookingModule {}

@@ -15,7 +15,7 @@ export class BookingResolver {
   @Mutation(() => BookingObject)
   async createBooking(
     @Args('createBookingInput') createBookingInput: CreateBookingInput): Promise<BookingObject> {
-    return this.bookingService.createBooking(createBookingInput);
+    return //this.bookingService.createBooking(createBookingInput);
   }
 }
 

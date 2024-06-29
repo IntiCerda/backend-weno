@@ -8,6 +8,7 @@ import { response } from 'express';
 import { AuthResponse } from './dto/auth-response';
 import { RequestResetPasswordDto } from './dto/request-reset-password.dto';
 import * as nodemailer from 'nodemailer';
+import { User } from 'src/users/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -18,8 +19,12 @@ export class AuthService {
     ){}
 
 
-    async register(registerDto : RegisterDto){
-        const {name, lastName, email, password} = registerDto;        
+    async register(registerDto : RegisterDto): Promise<User> {
+        const {name, lastName, email, password1, password2} = registerDto;        
+
+        if(password1 !== password2){
+            throw new BadRequestException('Passwords do not match');
+        }
         const user = await this.userService.getUserByEmail(email)
 
         if(user){
@@ -30,7 +35,8 @@ export class AuthService {
             name,
             lastName,
             email,
-            password: await bcryptjs.hash(password, 10),
+            password1: await bcryptjs.hash(password1, 10),
+            password2
         });
     }
 

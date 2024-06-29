@@ -28,6 +28,14 @@ export class RegisterDto{
     @IsNotEmpty()  @Matches(/[A-Z]/, { message: 'La contraseña debe contener al menos una letra mayúscula' })
     @Matches(/^[^\u00C0-\u017F\s]+$/,{ message: 'La contraseña no debe contener tildes' })
     @Field()
-    password : string;
+    password1 : string;
+
+    @Transform(({value})=> value.trim())
+    @IsString()
+    @MinLength(6)
+    @IsNotEmpty()  @Matches(/[A-Z]/, { message: 'La contraseña debe contener al menos una letra mayúscula' })
+    @Matches(/^[^\u00C0-\u017F\s]+$/,{ message: 'La contraseña no debe contener tildes' })
+    @Field()
+    password2: string;
     
 }
