@@ -25,4 +25,8 @@ export class User {
   @IsString()
   @MinLength(6)
   password: string;
+
+  @Field()
+  @IsString()
+  direccion: string;
 }

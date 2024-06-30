@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from "@nestjs/graphql";
+import { Field, Float, Int, ObjectType } from "@nestjs/graphql";
 
 @ObjectType()
 export class ReviewObject {
@@ -9,6 +9,6 @@ export class ReviewObject {
     @Field(() => String)
     comment: string;
 
-    @Field(() => Int)
+    @Field(() => Float)
     qualification: number;
 }

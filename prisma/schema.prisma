@@ -20,9 +20,10 @@ model User{
   name String @unique
   lastName String 
   password String
-  
-  requests  Requests[]
+  direccion String?
+
   services  Services[]
+  booking  Booking[]
 }
 
 model Category{
@@ -34,32 +35,28 @@ model Category{
 
 model Booking{
   id String @id @default(uuid())
+  user User @relation(fields: [id_user], references: [id])
+  service Services @relation(fields: [id_service], references: [id])
+  review Review? @relation(fields: [id_review], references: [id])
+
+  id_user String
+  id_service String
+  id_review String
   date DateTime
   status Boolean //???
-
-  requests Requests[]
+ 
 }
 
 model Review{
   id String @id @default(uuid())
-  qualification Int
+  qualification Float
   comment String
-
-  requests   Requests[]
-}
-
-model Requests{
-  id         String    @id @default(uuid())
-  user       User      @relation(fields: [id_user], references: [id])
-  service    Services  @relation(fields: [id_service], references: [id])
-  booking    Booking   @relation(fields: [id_booking], references: [id])
-  review     Review    @relation(fields: [id_review], references: [id])
   
-  id_user    String
-  id_service String
-  id_booking String
-  id_review  String
+  booking Booking[]
+
 }
+
+
 
 
 model Services{
@@ -73,5 +70,6 @@ model Services{
   category_name String
   price       Int
 
-  requests  Requests[]
+  booking     Booking[]
+
 }
