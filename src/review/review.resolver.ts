@@ -15,6 +15,11 @@ export class ReviewResolver {
     @Mutation(() => ReviewObject)
     async createReview(@Args('reviewImput') reviewImput: ReviewInput){
         return await this.reviewService.createReview(reviewImput)
+    }   
+
+    @Mutation(() => ReviewObject)
+    async deleteReviewById(@Args('id') id: string) {
+        return await this.reviewService.deleteReviewById(id)
     }
 
 }

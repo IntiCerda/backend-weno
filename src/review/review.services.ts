@@ -24,4 +24,12 @@ export class ReviewService {
         })
 
     }
+
+    async deleteReviewById(id: string): Promise<ReviewObject>{
+        return await this.prisma.review.delete({
+            where: {
+                id: id
+            }
+        })
+    }
 }

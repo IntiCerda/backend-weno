@@ -36,6 +36,15 @@ export class UserResolver {
         return this.userService.updateEmailById(updateEmailDto) 
     }
 
+    @Mutation(() => User)
+    async updateAddressById(@Args('id') id: string, @Args('address') address: string){
+        return this.userService.updateAddressById(id, address)
+    }
+
+    @Mutation(() => User)
+    async updateNationalityById(@Args('id') id: string, @Args('nationality') nationality: string){
+        return this.userService.updateNationalityById(id, nationality)
+    }
 
 }
 

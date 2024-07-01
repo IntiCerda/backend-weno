@@ -20,7 +20,9 @@ model User{
   name String @unique
   lastName String 
   password String
-  direccion String?
+  address String?
+  nationality String?
+
 
   services  Services[]
   booking  Booking[]

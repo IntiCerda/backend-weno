@@ -38,7 +38,9 @@ type Mutation {
   login(loginDto: LoginDto!): AuthResponse!
   register(registerDto: RegisterDto!): User!
   requestResetPassword(requestResetPasswordDto: RequestResetPasswordDto!): String!
+  updateAddressById(address: String!, id: String!): User!
   updateEmailById(updateEmailDto: UpdateEmailDto!): User!
+  updateNationalityById(id: String!, nationality: String!): User!
   updatePassByEmail(updatePassDto: UpdatePasswordDto!): User!
 }
 
@@ -85,9 +87,11 @@ input UpdatePasswordDto {
 }
 
 type User {
+  address: String
   email: String!
   id: ID!
   lastName: String!
   name: String!
+  nationality: String
   password: String!
 }

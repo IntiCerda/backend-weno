@@ -13,9 +13,8 @@ export class UserService {
 
 
     async getAllUsers(): Promise<User[]>{
-        return this.prisma.user.findMany();
+        return this.prisma.user.findMany({});
     }
-
 
     async getUserById(id: string): Promise<User>{
         return this.prisma.user.findUnique({
@@ -96,5 +95,27 @@ export class UserService {
         })
     }
 
+    async updateAddressById(id: string, address: string): Promise<User>{
+        return await this.prisma.user.update({
+            where:{
+                id
+            },
+            data:{
+                address: address
+            }
+        })
+    }
+
+    async updateNationalityById(id: string, nationality: string): Promise<User>{
+        return await this.prisma.user.update({
+            where:{
+                id
+            },
+            data:{
+                nationality: nationality
+            }
+
+        })
+    }
 
 }
