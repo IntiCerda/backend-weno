@@ -25,4 +25,12 @@ export class User {
   @IsString()
   @MinLength(6)
   password: string;
+
+  @Field({ nullable: true }) 
+  @IsString()
+  address?: string;
+
+  @Field({ nullable: true }) 
+  @IsString()
+  nationality?: string;
 }

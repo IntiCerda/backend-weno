@@ -4,6 +4,7 @@ import { Services, User } from '@prisma/client';
 import { CreateServiceDto } from './create-service.dto';
 import { UserService } from 'src/users/user.service';
 import { CategoryService } from 'src/category/category.service';
+import { Service } from './service.dto';
 
 @Injectable()
 export class ServicesService {
@@ -13,7 +14,7 @@ export class ServicesService {
     private categoryService: CategoryService
   ){}
 
-  async getAllServices(): Promise<Services[]>{
+  async getAllServices(): Promise<Service[]>{
       return await this.prisma.services.findMany({
             include: {
                 user: true,
@@ -23,7 +24,7 @@ export class ServicesService {
   }
 
 
-  async getServiceById(id: string): Promise<Services>{
+  async getServiceById(id: string): Promise<Service>{
       return await this.prisma.services.findUnique({
           where: {
               id
@@ -36,7 +37,7 @@ export class ServicesService {
       })
   }
 
-  async createService(createService: CreateServiceDto): Promise<Services>{
+  async createService(createService: CreateServiceDto): Promise<Service>{
         const {name, price, description, id_user, category_name} = createService;
 
         const userFound = await this.userService.getUserById(id_user)
@@ -63,21 +64,29 @@ export class ServicesService {
                         name: categoryFound.name
                     }
                 }
-          }
+          },
+            include: {
+                user: true,
+                category: true
+            }
       })
 
   }
 
-  async updateService(id:string,data: Services ): Promise<Services>{
+  async updateService(id:string,data: Services ): Promise<Service>{
       return await this.prisma.services.update({
           where:{
               id
           },
-          data
+          data,
+          include: {
+            user: true,
+            category: true
+        }
       })
   }
 
-  async deleteServiceById(id: string): Promise<Services>{
+  async deleteServiceById(id: string): Promise<any>{
       return await this.prisma.services.delete({
           where:{
               id
@@ -85,7 +94,7 @@ export class ServicesService {
       })
   }
 
-    async getServicesByUser(userId: string): Promise<Services[]>{ 
+    async getServicesByUser(userId: string): Promise<Service[]>{ 
         const userFIind = await this.userService.getUserById(userId)
         if(!userFIind) throw new NotFoundException('User not found');
         const services = await this.prisma.services.findMany({
@@ -102,7 +111,7 @@ export class ServicesService {
         return services;
     }
 
-    async getServicesNotUser(userId: string): Promise<Services[]>{ 
+    async getServicesNotUser(userId: string): Promise<Service[]>{ 
         const userFIind = await this.userService.getUserById(userId)
         if(!userFIind) throw new NotFoundException('User not found');
         const services = await this.prisma.services.findMany({
