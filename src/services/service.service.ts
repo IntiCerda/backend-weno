@@ -107,7 +107,6 @@ export class ServicesService {
             }
             
         })
-        console.log(services)
         return services;
     }
 
@@ -127,7 +126,6 @@ export class ServicesService {
             
         })
 
-        console.log(services)
         return services;
     }
 }
