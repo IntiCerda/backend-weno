@@ -22,4 +22,8 @@ export class ReviewResolver {
         return await this.reviewService.deleteReviewById(id)
     }
 
+    @Query(() => ReviewObject)
+    async getReviewById(@Args('id') id: string) {
+        return await this.reviewService.getReviewById(id)
+    }
 }

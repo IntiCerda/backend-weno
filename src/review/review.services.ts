@@ -32,4 +32,13 @@ export class ReviewService {
             }
         })
     }
+
+
+    async getReviewById(id: string): Promise<ReviewObject>{
+        return await this.prisma.review.findUnique({
+            where: {
+                id
+            }
+        })
+    }
 }

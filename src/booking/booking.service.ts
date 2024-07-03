@@ -1,15 +1,17 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { BookingObject } from "./booking.dto";
 import { CreateBooking } from "./create-booking.dto";
 import { UserService } from "src/users/user.service";
 import { ServicesService } from "src/services/service.service";
+import { ReviewService } from "src/review/review.services";
 
 @Injectable()
 export class BookingService {
     constructor(private prisma: PrismaService,
-        private userService: UserService,
-        private serviceService: ServicesService
+        private readonly userService: UserService,
+        private readonly serviceService: ServicesService,
+        private readonly reviewService: ReviewService
     ) {}
 
 
@@ -181,5 +183,57 @@ export class BookingService {
         });
     }
 
+
+    async addReviewToBooking(id_booking: string, id_review: string): Promise<BookingObject> {
+        const bookingFound = await this.getBookingById(id_booking);
+
+        if (!bookingFound)  throw new NotFoundException('Booking not found');
+
+        const reviewFound = await this.reviewService.getReviewById(id_review);
+
+        if (!reviewFound) throw new NotFoundException('Review not found');
+
+        return await this.prisma.booking.update({
+            where: {
+                id: id_booking
+            },
+            data: {
+                review: {
+                    connect: {
+                        id: id_review
+                    }
+                }
+            },
+            include: {
+                user: true,
+                service: {
+                    include: {
+                        user: true,
+                        category: true,
+                    }
+                },
+                review: true
+             }
+        });
+    }
+
+
+    async getBookingById(id_booking: string): Promise<BookingObject> {
+        return await this.prisma.booking.findUnique({
+            where: {
+                id: id_booking
+            },
+            include: {
+                user: true,
+                service: {
+                    include: {
+                        user: true,
+                        category: true,
+                    }
+                },
+                review: true
+            }
+        });
+    }
 
 }

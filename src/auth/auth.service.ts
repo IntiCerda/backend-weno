@@ -58,7 +58,7 @@ export class AuthService {
         const payload = {id: user.id};
         const token = await this.jwtService.signAsync(payload);
         
-        return new AuthResponse(token, email);
+        return new AuthResponse(token, user.id);
 }
 
 //Muy bonito y todo, pero no llega ningun correo v3
@@ -71,44 +71,29 @@ export class AuthService {
     }
 
       const newPassword = 'C' + Math.random().toString(36).slice(-8);
-      user.password = await bcryptjs.hash(newPassword, 10);
-
+      const hashedPassword = await bcryptjs.hash(newPassword, 10);
+      await this.userService.updatePassByEmail({email, newPassword});
+      console.log(newPassword)
+      console.log(user.password)
 
       const transporter = nodemailer.createTransport({
-        host: 'smtp.ethereal.email',
-        port: 587,
+        service: 'gmail',
         auth: {
-            user: 'rahsaan41@ethereal.email',
-            pass: 's83GFxjvyW8aPfZAVj'
-        }
+          user: 'kuky2881@gmail.com', 
+          pass: 'ajkpfynfdsigqgqy',
+        },
       });
 
-      const mailOptions = {
-        from: 'rahsaan41@ethereal.email',
-        to: user.email,
-        subject: 'Solicitud de restablecimiento de contraseña',
-        text: `
-          Hola,
-      
-          Se ha solicitado un restablecimiento de contraseña para tu cuenta.
-          Tu contraseña temporal es: ${newPassword}
-          
-          Saludos,
-          El equipo de la aplicación.
-        `,
-      };
-      console.log('QWEA');
-      const sendMail = async(transporter, mailOptions) => {
-        try{
-          console.log('QWEA2');
-          await transporter.sendMail(mailOptions);
-          console.log('QWEA3');
-        }catch(error){
-          console.error(error);
-        }
-      }
-      sendMail(transporter, mailOptions);
-      console.log(sendMail.toString());
+      await transporter.sendMail({
+        from: 'kuky2881@gmail.com', // Remitente
+        to: user.email,             //destinatario
+        subject: 'Solicitud cambio de contraseña', 
+        text: ' Su contraseña temporal: ' + newPassword ,// texto correo electrónico
+        
+      });
+
+
+      console.log('CORREO ENVIADO');
       return 'Email sent';
   }
 

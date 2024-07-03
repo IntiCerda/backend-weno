@@ -26,5 +26,15 @@ export class BookingResolver {
   async cancelBookingById(@Args('id_booking') id_booking: string){
     return this.bookingService.cancelBookingById(id_booking);
   }
+
+  @Mutation(() => BookingObject)
+  async addReviewToBooking(@Args('id_booking') id_booking: string, @Args('id_review') id_review: string){
+    return this.bookingService.addReviewToBooking(id_booking, id_review);
+  }
+
+  @Query(() => BookingObject)
+  async getBookingById(@Args('id_booking') id_booking: string): Promise<BookingObject>{
+    return this.bookingService.getBookingById(id_booking);
+  }
 }
 
