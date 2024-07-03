@@ -14,8 +14,7 @@ export class CreateBooking {
     @IsString()
     id_service: string;
 
-
-    @Field()
-    selectdate: selectDate;
+    @Field() 
+    selectdate: selectDate = { date: "", time: "" };
 
 }

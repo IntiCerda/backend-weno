@@ -16,7 +16,7 @@ export class BookingObject {
     @Field(() => Service)
     service: Service;
 
-    @Field(()=> ReviewObject, {nullable: true, defaultValue: null}) 
+    @Field({nullable: true, defaultValue: null}) 
     review?: ReviewObject;
 
     @Field(() => String)

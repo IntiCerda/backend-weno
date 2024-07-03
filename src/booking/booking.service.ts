@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { BookingObject } from "./booking.dto";
-import { CreateBooking } from "./create-booking.dto";
+import { CreateBooking, selectDate } from "./create-booking.dto";
 import { UserService } from "src/users/user.service";
 import { ServicesService } from "src/services/service.service";
 
@@ -97,42 +97,40 @@ export class BookingService {
     }
 
 
-    async checkDate(selectDate): Promise<boolean> {
-        const {date, time} = selectDate;
+    async checkDate(selectDate: { date: string, time: string }): Promise<boolean> {
+        const { date, time } = selectDate;
 
-        const datePart = date.split('T')[0]; 
+        const datePart: string = date.split('T')[0];
 
-        const [year, month, day] = datePart.split('-').map(Number);
+        const [year, month, day]: number[] = datePart.split('-').map(Number);
 
-        const YEAR = year;
-        const MONTH = month;
-        const DAY = day;
+        const YEAR: number = year;
+        const MONTH: number = month;
+        const DAY: number = day;
 
         console.log(`Year: ${YEAR}, Month: ${MONTH}, Day: ${DAY}`);
 
-        const today = new Date();
-        const inputDate = new Date(YEAR, MONTH - 1, DAY); 
+        const today: Date = new Date();
+        const inputDate: Date = new Date(YEAR, MONTH - 1, DAY);
 
         if (inputDate < today) {
             return false;
         } else {
             return true;
         }
-        
-
     }
 
-    async checkTime(selectDate): Promise<boolean> {
-        const {date, time} = selectDate;
+    async checkTime(selectDate: { date: string, time: string }): Promise<boolean> {
+        const { date, time } = selectDate;
 
-        const [hour] = time.split(':').map(Number);
+        const [hour]: number[] = time.split(':').map(Number);
         
-        const providedHour = hour;
+        const providedHour: number = hour;
         
         console.log(`Provided Hour: ${providedHour}`);
         
-        const now = new Date();
-        const currentHour = now.getHours();
+        const now: Date = new Date();
+        const currentHour: number = now.getHours();
         
         console.log(`Current Hour: ${currentHour}`);
         
