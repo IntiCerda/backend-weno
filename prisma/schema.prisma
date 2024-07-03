@@ -44,8 +44,8 @@ model Booking{
   id_user String
   id_service String
   id_review String
-  date DateTime
-  status Boolean //???
+  date String
+  hour String
  
 }
 

@@ -23,6 +23,5 @@ export class CreateServiceDto {
 
   @Field()
   @IsString()
-  //@IsOptional() // Considera si es opcional o no
   category_name: string;
 }

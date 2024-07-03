@@ -7,9 +7,24 @@ type AuthResponse {
   token: String!
 }
 
+type BookingObject {
+  date: String!
+  hour: String!
+  id: ID!
+  review: ReviewObject
+  service: Service!
+  user: User!
+}
+
 type CategoryObject {
   id: ID!
   name: String!
+}
+
+input CreateBooking {
+  id_service: String!
+  id_user: String!
+  selectdate: SelectDate!
 }
 
 input CreateCategory {
@@ -30,6 +45,8 @@ input LoginDto {
 }
 
 type Mutation {
+  cancelBookingById(id_booking: String!): BookingObject!
+  createBooking(createBookingInput: CreateBooking!): BookingObject!
   createCategory(crateCategory: CreateCategory!): CategoryObject!
   createService(createService: CreateServiceDto!): Service!
   deleteCategory(id: String!): CategoryObject!
@@ -45,9 +62,11 @@ type Mutation {
 }
 
 type Query {
+  getAllBooking: [BookingObject!]!
   getAllCategories: [CategoryObject!]!
   getAllServices: [Service!]!
   getAllUsers: [User!]!
+  getBookingsByIdUser(id_user: String!): [BookingObject!]!
   getCategoryByName(categoryByName: String!): CategoryObject!
   getServiceById(id: String!): Service!
   getServicesByUser(id: String!): [Service!]!
@@ -65,6 +84,17 @@ input RegisterDto {
 
 input RequestResetPasswordDto {
   email: String!
+}
+
+type ReviewObject {
+  comment: String!
+  id: String!
+  qualification: Float!
+}
+
+input SelectDate {
+  date: String!
+  time: String!
 }
 
 type Service {
