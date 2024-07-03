@@ -1,15 +1,13 @@
-import { Field, ObjectType } from "@nestjs/graphql";
-import { IsString } from "class-validator";
+import { Field, InputType } from '@nestjs/graphql';
+import { IsString } from 'class-validator';
 
-
-@ObjectType()
+@InputType()
 export class SelectDate {
-
-    @IsString()
     @Field()
+    @IsString()
     date: string;
 
-    @IsString()
     @Field()
+    @IsString()
     time: string;
 }
