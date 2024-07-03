@@ -45,11 +45,14 @@ input LoginDto {
 }
 
 type Mutation {
+  addReviewToBooking(id_booking: String!, id_review: String!): BookingObject!
   cancelBookingById(id_booking: String!): BookingObject!
   createBooking(createBookingInput: CreateBooking!): BookingObject!
   createCategory(crateCategory: CreateCategory!): CategoryObject!
+  createReview(reviewImput: ReviewInput!): ReviewObject!
   createService(createService: CreateServiceDto!): Service!
   deleteCategory(id: String!): CategoryObject!
+  deleteReviewById(id: String!): ReviewObject!
   deleteServiceById(id: String!): Service!
   deleteUserByName(id: String!): User!
   login(loginDto: LoginDto!): AuthResponse!
@@ -64,10 +67,14 @@ type Mutation {
 type Query {
   getAllBooking: [BookingObject!]!
   getAllCategories: [CategoryObject!]!
+  getAllReviews: [ReviewObject!]!
   getAllServices: [Service!]!
   getAllUsers: [User!]!
+  getBookingById(id_booking: String!): BookingObject!
   getBookingsByIdUser(id_user: String!): [BookingObject!]!
   getCategoryByName(categoryByName: String!): CategoryObject!
+  getReviewByBookingId(id_booking: String!): BookingObject!
+  getReviewById(id: String!): ReviewObject!
   getServiceById(id: String!): Service!
   getServicesByUser(id: String!): [Service!]!
   getServicesNotUser(id: String!): [Service!]!
@@ -84,6 +91,11 @@ input RegisterDto {
 
 input RequestResetPasswordDto {
   email: String!
+}
+
+input ReviewInput {
+  comment: String!
+  qualification: Float!
 }
 
 type ReviewObject {

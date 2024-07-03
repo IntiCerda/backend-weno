@@ -11,13 +11,15 @@ import { GraphqlModule } from './graphql/graphql.module';
 import { PrismaService } from './prisma/prisma.service';
 import { CategoryModule } from './category/category.module';
 import { BookingModule } from './booking/booking.module';
+import { ReviewService } from './review/review.services';
+import { ReviewModule } from './review/review.module';
 
 
 @Module({
   imports: [PrismaModule, UserModule, 
     ServiceModule, AuthModule, 
     GraphqlModule, 
-    CategoryModule,BookingModule],
+    CategoryModule,BookingModule, ReviewModule],
   controllers: [AppController],
   providers: [AppService, UserService, PrismaService],
 })
