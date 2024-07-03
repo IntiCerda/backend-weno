@@ -5,6 +5,7 @@
 type AuthResponse {
   email: String!
   token: String!
+  userId: String!
 }
 
 type BookingObject {

@@ -58,7 +58,7 @@ export class AuthService {
         const payload = {id: user.id};
         const token = await this.jwtService.signAsync(payload);
         
-        return new AuthResponse(token, user.id);
+        return new AuthResponse(token,email, user.id);
 }
 
 //Muy bonito y todo, pero no llega ningun correo v3
