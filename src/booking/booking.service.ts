@@ -147,4 +147,41 @@ export class BookingService {
     }
 
 
+    async getBookingsByIdUser(id_user: string): Promise<BookingObject[]> {
+        return await this.prisma.booking.findMany({
+            where: {
+                id_user
+            },
+            include: {
+                user: true,
+                service: {
+                    include: {
+                        user: true,
+                        category: true,
+                    }
+                },
+                review: true
+            }
+        });
+    }
+
+    async cancelBookingById(id: string): Promise<BookingObject> {
+        return await this.prisma.booking.delete({
+            where: {
+                id
+            },
+            include: {
+                user: true,
+                service: {
+                    include: {
+                        user: true,
+                        category: true,
+                    }
+                },
+                review: true
+            }
+        });
+    }
+
+
 }
