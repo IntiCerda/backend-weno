@@ -29,8 +29,8 @@ export class BookingService {
     }
 
     async createBooking(createBookingInput: CreateBooking): Promise<BookingObject>{
-        const {id_user, id_service, date, hour} = createBookingInput;
-
+        const {id_user, id_service, selectdate} = createBookingInput;
+        const {date, time} = selectdate;
         const userFound = await this.userService.getUserById(id_user)
 
         if(!userFound){
@@ -41,12 +41,24 @@ export class BookingService {
 
         if(!serviceFound) throw new Error('Service not found')
         
+
+        const dateValid = await this.checkDate(selectdate);
+
+        if (!dateValid) {
+            throw new Error('Date is invalid');
+        }
+
+        const timeValid = await this.checkTime(selectdate);
+
+        if (!timeValid) {
+            throw new Error('Time is invalid');
+        }
             
         const existingBooking = await this.prisma.booking.findFirst({
             where: {
                 id_service: serviceFound.id,
                 date,
-                hour
+                hour: time
             }
         });
 
@@ -68,7 +80,7 @@ export class BookingService {
                     }
                 },
                 date,
-                hour
+                hour: time
             },
             include: {
                 user: true,
@@ -83,4 +95,56 @@ export class BookingService {
         });
 
     }
+
+
+    async checkDate(selectDate): Promise<boolean> {
+        const {date, time} = selectDate;
+
+        const datePart = date.split('T')[0]; 
+
+        const [year, month, day] = datePart.split('-').map(Number);
+
+        const YEAR = year;
+        const MONTH = month;
+        const DAY = day;
+
+        console.log(`Year: ${YEAR}, Month: ${MONTH}, Day: ${DAY}`);
+
+        const today = new Date();
+        const inputDate = new Date(YEAR, MONTH - 1, DAY); 
+
+        if (inputDate < today) {
+            return false;
+        } else {
+            return true;
+        }
+        
+
+    }
+
+    async checkTime(selectDate): Promise<boolean> {
+        const {date, time} = selectDate;
+
+        const [hour] = time.split(':').map(Number);
+        
+        const providedHour = hour;
+        
+        console.log(`Provided Hour: ${providedHour}`);
+        
+        const now = new Date();
+        const currentHour = now.getHours();
+        
+        console.log(`Current Hour: ${currentHour}`);
+        
+
+        if (providedHour <= currentHour) {
+            return false;
+        } else {
+            return true;
+        }
+        
+        
+    }
+
+
 }

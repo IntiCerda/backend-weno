@@ -1,6 +1,8 @@
 import { Field, ID, InputType } from "@nestjs/graphql";
 import { IsString, MinLength } from "class-validator";
 
+export type selectDate = {date: string, time: string}
+
 @InputType()
 export class CreateBooking {
 
@@ -14,11 +16,6 @@ export class CreateBooking {
 
 
     @Field()
-    @IsString()
-    date: string;
- 
-    @Field()
-    @IsString()
-    hour: string;
+    selectdate: selectDate;
 
 }
