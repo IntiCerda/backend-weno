@@ -36,5 +36,10 @@ export class BookingResolver {
   async getBookingById(@Args('id_booking') id_booking: string): Promise<BookingObject>{
     return this.bookingService.getBookingById(id_booking);
   }
+
+  @Query(() => BookingObject)
+  async getReviewByBookingId(@Args('id_booking') id_booking: string): Promise<BookingObject>{
+    return this.bookingService.getReviewByBookingId(id_booking);
+  }
 }
 

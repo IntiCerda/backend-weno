@@ -5,6 +5,7 @@ import { CreateBooking } from "./create-booking.dto";
 import { UserService } from "src/users/user.service";
 import { ServicesService } from "src/services/service.service";
 import { ReviewService } from "src/review/review.services";
+import { ReviewObject } from "src/review/review.dto";
 
 @Injectable()
 export class BookingService {
@@ -236,4 +237,38 @@ export class BookingService {
         });
     }
 
+
+    async getReviewByBookingId(id_booking: string): Promise<BookingObject> {
+        return await this.prisma.booking.findUnique({
+            where: {
+                id: id_booking
+            },
+            include: {
+                user: true,
+                service: {
+                    include: {
+                        user: true,
+                        category: true,
+                    }
+                },
+                review: true
+            }
+        });
+    }
+
+    
+    async getReviewsByServiceId(id_service: string): Promise<ReviewObject[]> {
+        const bookings = await this.prisma.booking.findMany({
+            where: {
+                id_service: id_service,
+            },
+            include: {
+                review: true,
+            },
+        });
+
+        const reviews = bookings.flatMap(booking => booking.review);
+
+        return reviews;
+    }
 }
