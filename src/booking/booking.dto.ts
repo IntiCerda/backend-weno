@@ -19,12 +19,14 @@ export class BookingObject {
     @Field({nullable: true, defaultValue: null}) 
     review?: ReviewObject;
 
-    @Field(() => String)
+    
     @IsString()
+    @Field()
     date: string;
  
-    @Field(() => String)
+    
     @IsString()
+    @Field()
     hour: string;
 
 }

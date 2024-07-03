@@ -1,7 +1,6 @@
 import { Field, ID, InputType } from "@nestjs/graphql";
 import { IsString, MinLength } from "class-validator";
-
-export type selectDate = {date: string, time: string}
+import { SelectDate } from "./date-dto";
 
 @InputType()
 export class CreateBooking {
@@ -14,7 +13,7 @@ export class CreateBooking {
     @IsString()
     id_service: string;
 
-    @Field() 
-    selectdate: selectDate = { date: "", time: "" };
+    @Field()
+    selectdate: SelectDate;
 
 }

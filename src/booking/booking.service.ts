@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { BookingObject } from "./booking.dto";
-import { CreateBooking, selectDate } from "./create-booking.dto";
+import { CreateBooking } from "./create-booking.dto";
 import { UserService } from "src/users/user.service";
 import { ServicesService } from "src/services/service.service";
 
