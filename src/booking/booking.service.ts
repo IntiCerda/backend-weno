@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { BookingObject } from "./booking.dto";
-import { CreateBooking } from "./create-booking.dto";
+import { CreateBookingInput } from "./create-booking.dto";
 import { UserService } from "src/users/user.service";
 import { ServicesService } from "src/services/service.service";
 import { ReviewService } from "src/review/review.services";
@@ -31,59 +31,66 @@ export class BookingService {
         });
     }
 
-    async createBooking(createBookingInput: CreateBooking): Promise<BookingObject>{
-        const {id_user, id_service, selectdate} = createBookingInput;
-        const {date, time} = selectdate;
-        const userFound = await this.userService.getUserById(id_user)
+    async createBooking(createBookingInput: CreateBookingInput): Promise<BookingObject> {
+        const { id_user, id_service, date, time } = createBookingInput;
 
-        if(!userFound){
-            throw new Error('User not found')
+        const userFound = await this.userService.getUserById(id_user);
+        if (!userFound) {
+            throw new Error('User not found');
         }
-
-        const serviceFound = await this.serviceService.getServiceById(id_service)
-
-        if(!serviceFound) throw new Error('Service not found')
-        
-
-        const dateValid = await this.checkDate(selectdate);
-
+        console.log("Paso1");
+        const serviceFound = await this.serviceService.getServiceById(id_service);
+        if (!serviceFound) {
+            throw new Error('Service not found');
+        }
+        console.log("Paso2");
+        const dateValid = await this.checkDate(date);
         if (!dateValid) {
             throw new Error('Date is invalid');
         }
-
-        const timeValid = await this.checkTime(selectdate);
-
+        console.log("Paso3");
+        const timeValid = await this.checkTime(time);
         if (!timeValid) {
             throw new Error('Time is invalid');
         }
-            
-        const existingBooking = await this.prisma.booking.findFirst({
-            where: {
-                id_service: serviceFound.id,
-                date,
-                hour: time
-            }
-        });
-
+        console.log("Paso4");
+        const existingBooking = await this.findExistingBooking(id_service, date, time);
         if (existingBooking) {
             throw new Error('Booking already exists for this service, date, and hour');
         }
-
-
+        console.log("Paso5");
         return await this.prisma.booking.create({
             data: {
                 user: {
                     connect: {
-                        id: userFound.id
+                        id: id_user
                     }
                 },
                 service: {
                     connect: {
-                        id: serviceFound.id
+                        id: id_service
                     }
                 },
                 date,
-                hour: time
+                hour: time,
+
+            },
+            include: {
+                user: true,
+                service: {
+                    include: {
+                        user: true,
+                        category: true,
+                    }
+                }
+            }
+        });
+    }
+
+    async findExistingBooking(id_service: string, date: string, time: string): Promise<BookingObject> {
+        const existingBooking = await this.prisma.booking.findFirst({
+            where: {
+                id_service: id_service,
             },
             include: {
                 user: true,
@@ -96,56 +103,59 @@ export class BookingService {
                 review: true
             }
         });
-
+        return existingBooking;
     }
+    
+    
+    
 
 
-    async checkDate(selectDate: { date: string, time: string }): Promise<boolean> {
-        const { date, time } = selectDate;
-
+    async checkDate(date: string): Promise<boolean> {
         const datePart: string = date.split('T')[0];
-
         const [year, month, day]: number[] = datePart.split('-').map(Number);
-
+    
         const YEAR: number = year;
         const MONTH: number = month;
         const DAY: number = day;
-
+    
         console.log(`Year: ${YEAR}, Month: ${MONTH}, Day: ${DAY}`);
-
+    
         const today: Date = new Date();
+        today.setHours(0, 0, 0, 0);
+        
         const inputDate: Date = new Date(YEAR, MONTH - 1, DAY);
-
+        console.log(`Today: ${today}`);
+        console.log(`Input Date: ${inputDate}`);
+    
         if (inputDate < today) {
             return false;
         } else {
             return true;
         }
     }
+    
 
-    async checkTime(selectDate: { date: string, time: string }): Promise<boolean> {
-        const { date, time } = selectDate;
-
-        const [hour]: number[] = time.split(':').map(Number);
+    async checkTime(time: string): Promise<boolean> {
+        const [hour, minute]: number[] = time.split(':').map(Number);
         
         const providedHour: number = hour;
-        
-        console.log(`Provided Hour: ${providedHour}`);
+        const providedMinute: number = minute;
+    
+        console.log(`Provided Hour: ${providedHour}, Provided Minute: ${providedMinute}`);
         
         const now: Date = new Date();
         const currentHour: number = now.getHours();
+        const currentMinute: number = now.getMinutes();
         
-        console.log(`Current Hour: ${currentHour}`);
+        console.log(`Current Hour: ${currentHour}, Current Minute: ${currentMinute}`);
         
-
-        if (providedHour <= currentHour) {
+        if (providedHour < currentHour || (providedHour === currentHour && providedMinute <= currentMinute)) {
             return false;
         } else {
             return true;
         }
-        
-        
     }
+    
 
 
     async getBookingsByIdUser(id_user: string): Promise<BookingObject[]> {

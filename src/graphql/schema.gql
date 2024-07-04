@@ -12,7 +12,7 @@ type BookingObject {
   date: String!
   hour: String!
   id: ID!
-  review: ReviewObject
+  review: ReviewObject!
   service: Service!
   user: User!
 }
@@ -22,10 +22,11 @@ type CategoryObject {
   name: String!
 }
 
-input CreateBooking {
+input CreateBookingInput {
+  date: String!
   id_service: String!
   id_user: String!
-  selectdate: SelectDate!
+  time: String!
 }
 
 input CreateCategory {
@@ -48,7 +49,7 @@ input LoginDto {
 type Mutation {
   addReviewToBooking(id_booking: String!, id_review: String!): BookingObject!
   cancelBookingById(id_booking: String!): BookingObject!
-  createBooking(createBookingInput: CreateBooking!): BookingObject!
+  createBooking(createBookingInput: CreateBookingInput!): BookingObject!
   createCategory(crateCategory: CreateCategory!): CategoryObject!
   createReview(reviewImput: ReviewInput!): ReviewObject!
   createService(createService: CreateServiceDto!): Service!
@@ -103,11 +104,6 @@ type ReviewObject {
   comment: String!
   id: String!
   qualification: Float!
-}
-
-input SelectDate {
-  date: String!
-  time: String!
 }
 
 type Service {

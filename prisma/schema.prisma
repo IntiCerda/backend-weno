@@ -43,7 +43,7 @@ model Booking{
 
   id_user String
   id_service String
-  id_review String
+  id_review String?
   date String
   hour String
  

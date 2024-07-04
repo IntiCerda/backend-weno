@@ -1,6 +1,6 @@
 import { BookingService } from "./booking.service";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
-import { CreateBooking } from "./create-booking.dto";
+import { CreateBookingInput } from "./create-booking.dto";
 import { BookingObject } from "./booking.dto";
 
 @Resolver()
@@ -13,7 +13,7 @@ export class BookingResolver {
   }
 
   @Mutation(() => BookingObject)
-  async createBooking(@Args('createBookingInput') createBookingInput: CreateBooking): Promise<BookingObject> {
+  async createBooking(@Args('createBookingInput') createBookingInput: CreateBookingInput): Promise<BookingObject> {
     return this.bookingService.createBooking(createBookingInput);
   }
 
