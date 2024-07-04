@@ -38,27 +38,19 @@ export class BookingService {
         if (!userFound) {
             throw new Error('User not found');
         }
-        console.log("Paso1");
         const serviceFound = await this.serviceService.getServiceById(id_service);
         if (!serviceFound) {
             throw new Error('Service not found');
         }
-        console.log("Paso2");
-        const dateValid = await this.checkDate(date);
+        const dateValid = await this.checkDate(date,time);
         if (!dateValid) {
             throw new Error('Date is invalid');
         }
-        console.log("Paso3");
-        const timeValid = await this.checkTime(time);
-        if (!timeValid) {
-            throw new Error('Time is invalid');
-        }
-        console.log("Paso4");
+
         const existingBooking = await this.findExistingBooking(id_service, date, time);
         if (existingBooking) {
             throw new Error('Booking already exists for this service, date, and hour');
         }
-        console.log("Paso5");
         return await this.prisma.booking.create({
             data: {
                 user: {
@@ -91,6 +83,8 @@ export class BookingService {
         const existingBooking = await this.prisma.booking.findFirst({
             where: {
                 id_service: id_service,
+                date: date,
+                hour: time
             },
             include: {
                 user: true,
@@ -110,7 +104,7 @@ export class BookingService {
     
 
 
-    async checkDate(date: string): Promise<boolean> {
+    async checkDate(date: string,time:string): Promise<boolean> {
         const datePart: string = date.split('T')[0];
         const [year, month, day]: number[] = datePart.split('-').map(Number);
     
@@ -129,30 +123,9 @@ export class BookingService {
     
         if (inputDate < today) {
             return false;
-        } else {
+        }else{
             return true;
-        }
-    }
-    
-
-    async checkTime(time: string): Promise<boolean> {
-        const [hour, minute]: number[] = time.split(':').map(Number);
         
-        const providedHour: number = hour;
-        const providedMinute: number = minute;
-    
-        console.log(`Provided Hour: ${providedHour}, Provided Minute: ${providedMinute}`);
-        
-        const now: Date = new Date();
-        const currentHour: number = now.getHours();
-        const currentMinute: number = now.getMinutes();
-        
-        console.log(`Current Hour: ${currentHour}, Current Minute: ${currentMinute}`);
-        
-        if (providedHour < currentHour || (providedHour === currentHour && providedMinute <= currentMinute)) {
-            return false;
-        } else {
-            return true;
         }
     }
     
@@ -273,11 +246,17 @@ export class BookingService {
                 id_service: id_service,
             },
             include: {
-                review: true,
+                review: {
+                    select: {
+                        id: true,
+                        qualification: true,
+                        comment: true,
+                    },
+                },
             },
         });
 
-        const reviews = bookings.flatMap(booking => booking.review);
+        const reviews: ReviewObject[] = bookings.flatMap(booking => booking.review).filter(review => review !== null);
 
         return reviews;
     }

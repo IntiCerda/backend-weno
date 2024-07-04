@@ -40,11 +40,12 @@ export class ServiceResolver {
         return this.serviceService.getServicesNotUser(userId)
     }
 
+    @Query(() => String)
+    async reporterById(@Args('id') id: string){
+        return this.serviceService.reporterById(id)
+    }
 
-    // @Mutation()
-    // async updateUserByName(@Param('id') id: string,@Body() data: User){
-    //     return this.serviceSerice.updateService(id,data)
-    // }
+
 
 }
 

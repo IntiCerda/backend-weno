@@ -77,10 +77,12 @@ type Query {
   getCategoryByName(categoryByName: String!): CategoryObject!
   getReviewByBookingId(id_booking: String!): BookingObject!
   getReviewById(id: String!): ReviewObject!
+  getReviewsByServiceId(id_service: String!): [ReviewObject!]!
   getServiceById(id: String!): Service!
   getServicesByUser(id: String!): [Service!]!
   getServicesNotUser(id: String!): [Service!]!
   getUserById(id: String!): User!
+  reporterById(id: String!): String!
 }
 
 input RegisterDto {

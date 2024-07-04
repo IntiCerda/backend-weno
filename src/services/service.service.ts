@@ -128,4 +128,35 @@ export class ServicesService {
 
         return services;
     }
+
+    async reporterById(userId: string): Promise<string> {
+        // Verificar que el usuario existe
+        const userFound = await this.userService.getUserById(userId);
+        if (!userFound) {
+          throw new NotFoundException('User not found');
+        }
+    
+        const bookings = await this.prisma.booking.findMany({
+            where: {
+              service: {
+                user: {
+                  id: userId,
+                },
+              },
+            },
+            include: {
+              service: true,
+            },
+          });
+      
+          const totalSales = bookings.reduce((total, booking) => total + booking.service.price, 0);
+      
+          return `Ventas Totales: ${totalSales}`;
+
+    
+        
+      }
+
+      
+
 }

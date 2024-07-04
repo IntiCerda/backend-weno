@@ -2,6 +2,7 @@ import { BookingService } from "./booking.service";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { CreateBookingInput } from "./create-booking.dto";
 import { BookingObject } from "./booking.dto";
+import { ReviewObject } from "src/review/review.dto";
 
 @Resolver()
 export class BookingResolver {
@@ -40,6 +41,11 @@ export class BookingResolver {
   @Query(() => BookingObject)
   async getReviewByBookingId(@Args('id_booking') id_booking: string): Promise<BookingObject>{
     return this.bookingService.getReviewByBookingId(id_booking);
+  }
+
+  @Query(() => [ReviewObject])
+  async getReviewsByServiceId(@Args('id_service') id_service: string): Promise<ReviewObject[]>{
+    return this.bookingService.getReviewsByServiceId(id_service);
   }
 }
 
